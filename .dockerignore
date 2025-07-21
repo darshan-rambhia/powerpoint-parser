@@ -1,0 +1,25 @@
+# Git
+.git
+.gitignore
+README.md
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Build artifacts
+target/
+*.jar
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+
+# Scripts
+*.sh
+!entrypoint.sh
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,40 @@
+services:
+  powerpoint-parser:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: powerpoint-parser:latest
+    container_name: powerpoint-parser
+
+    # Environment variables
+    environment:
+      - JAVA_OPTS=-Xmx2g -Xms512m
+      - OUTPUT_DIR=/app/output
+
+    # Volume mounts
+    volumes:
+      # Input direectory can be read-only
+      - ./input:/app/input:ro
+      - ./output:/app/output:rw
+      # Maven cache volume for faster builds, if M2_HOME is set, else use maven-cache
+      - local-m2:/root/.m2
+
+    # Optional: limit resources
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+volumes:
+  # Use local .m2 if M2_HOME is set, otherwise use named volume
+  maven-cache:
+
+  # Optionally mount your local .m2 if M2_HOME is set
+  local-m2:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${M2_HOME:-/dev/null}
+      o: bind
